@@ -840,7 +840,7 @@ public class Main {
 		
 		Collections.sort(conjuntoArray, new Comparator<Conjunto>() {
 			public int compare(Conjunto r1, Conjunto r2) {
-				return  Integer.valueOf(r1.getTamanio()).compareTo(r2.getTamanio());
+				return  Integer.valueOf(r2.getTamanio()).compareTo(r1.getTamanio());
 			}
 		});
 		
@@ -1130,7 +1130,7 @@ public class Main {
 		System.out.println("Soporte minimo: " + soporteMinimo);
 		System.out.println("Confianza minima: " + confianzaMinima);
 		
-		System.out.println("\n\n  -- Conjuntos -- ");
+		System.out.println("\n\n  -- Reglas -- ");
 		
 		for(int i = conjuntoArray.size() - 1; i >= 0; i--) {
 			if(conjuntoArray.get(i).getTamanio() >= soporteMinimo ) {
@@ -1138,7 +1138,7 @@ public class Main {
 			}
 		}
 		
-		System.out.println("\n\n  -- Reglas -- ");
+		System.out.println("   -------------------- ");
 		
 		for(int i = cmArrayResult.size() - 1; i >= 0; i--) {
 			if(cmArrayResult.get(i).getConfianzaMinima() >= confianzaMinima && cmArrayResult.get(i).getConfianzaMinima() <= 1 &&
