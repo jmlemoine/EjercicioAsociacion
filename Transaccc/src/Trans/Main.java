@@ -1138,7 +1138,7 @@ public class Main {
 			}
 		}
 		
-		System.out.println("   -------------------- ");
+		System.out.println("   ---------------------- ");
 		
 		for(int i = cmArrayResult.size() - 1; i >= 0; i--) {
 			if(cmArrayResult.get(i).getConfianzaMinima() >= confianzaMinima && cmArrayResult.get(i).getConfianzaMinima() <= 1 &&
