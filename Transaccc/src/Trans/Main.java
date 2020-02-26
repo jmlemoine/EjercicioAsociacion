@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -14,9 +16,17 @@ public class Main {
 	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
 		
-		Scanner filename = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		System.out.println("Escriba el nombre del archivo con las transacciones: ");
-		String fn = filename.nextLine();
+		String fn = input.nextLine();
+		
+		System.out.println("Digite el soporte minimo: ");
+		int soporteMinimo = input.nextInt();
+		
+		System.out.println("Digite confianza minima: ");
+		float confianzaMinima = input.nextFloat();
+		input.close();
+		
 		int lineas=0, items=0;
 		LinkedList<File> listFicheros = new LinkedList<>();
 				
@@ -27,7 +37,7 @@ public class Main {
 		System.out.println("\nTransacciones");
 		Archivo file = new Archivo();
 		file.Lectura(fn);
-		Scanner s = new Scanner(new File("a.txt"));
+		Scanner s = new Scanner(new File(fn));
 		ArrayList<String> listS = new ArrayList<String>();
 		ArrayList<Integer> listI = new ArrayList<Integer>();
 		
@@ -59,7 +69,7 @@ public class Main {
 		
 		for(int i=0; i<ls.size(); i++) {
 			for(int j=0; j<ls.get(i).length(); j++) {
-				confianzaminima[i] = arreglocantidad[i]/ lineas;
+				confianzaminima[i] = arreglocantidad[i] / lineas;
 				
 				if(ls.get(i).charAt(j) == 'A') {
 					arreglocantidad[0]++;
@@ -93,7 +103,64 @@ public class Main {
 				"; E: "+arreglocantidad[4]+"; F: "+arreglocantidad[5]);
 		
 		
-		String[] patternAB = {"A(?=B)", "A?B", "AB", "AB", "A?B"};
+
+		/* 1 */  String[] patternAB = {"A(?=B)", "A?B", "AB", "AB", "A?B"};
+		/* 2 */  String[] patternAC = {"A(?=C)", "A?C", "AC","AC", "A?C"};
+		/* 3 */  String[] patternAD = { "A?D", "A(?=D)", "A?D","AD", "AD", "A?D"}; 
+		/* 4 */  String[] patternAE = { "A?E", "A(?=E)", "A?E","AE", "AE", "A?E"};
+		/* 5 */  String patternAF = "A??F";
+		/* 6 */  String[] patternBC = { "B(?=C)", "B?C", "BC","BC", "B?C"};
+		/* 7 */  String[] patternBD = { "B(?=D)", "B?D", "BD", "BD","B?D"};
+		/* 8 */  String[] patternBE = { "B(?=E)", "B?E", "B?E","BE", "BE"};
+		/* 9 */  String patternBF = "B??F";
+		/* 10 */ String patternCD = "C??D";
+		/* 11 */ String[] patternCE = { "C(?=E)", "C?E", "C?E", "CE","CE"};
+		/* 12 */ String[] patternCF = { "C(?=F)", "C?F", "C?F","CF", "CF"};
+		/* 13 */ String[] patternDE = { "D(?=E)", "D(?=E)","DE", "DE", "D?E", "D?E"};
+		/* 14 */ String[] patternDF = { "(?=F)", "(?=D)", "D?F","DF", "DF", "D?F"};
+		/* 15 */ String[] patternEF = { "(?=E)", "(?=F)","EF", "E?F","EF", "E?F",};
+		/* 16 */ String patternABC = "ABC";
+		/* 17 */ String patternABD = "ABD";
+		/* 18 */ String[] patternABE = {"ABE", "A?BE", "AB?E", "(?=A)", "(?=B)", "(?=E)"};
+		/* 19 */ String[] patternABF = {"ABF", "A?BF", "AB?F", "(?=A)", "(?=B)", "(?=F)"};
+		/* 20 */ String patternACD = "ACD";
+		/* 21 */ String[] patternACE = {"ACE", "A?CE", "AC?E", "A??E", "(?=A)", "(?=C)", "(?=E)"};
+		/* 22 */ String[] patternACF = {"ACF", "A?CF", "AC?F", "A??F", "(?=A)", "(?=C)", "(?=F)"};
+		/* 22 */ String patternADE = "ADE";
+		/* 23 */ String patternADF = "ADF";
+		/* 24 */ String patternAEF = "AEF";
+		/* 25 */ String patternBCD = "BCD";
+		/* 26 */ String patternBCE = "BCE";
+		/* 27 */ String patternBCF = "BCF";
+		/* 28 */ String patternBDE = "BDE";
+		/* 29 */ String patternBDF = "BDF";
+		/* 30 */ String patternBEF = "BEF";
+		/* 31 */ String patternCDE = "CDE";
+		/* 32 */ String patternCDF = "CDF";
+		/* 33 */ String patternCEF = "CEF";
+		/* 34 */ String patternDEF = "DEF";
+		/* 35 */ String patternABCD = "ABCD";
+		/* 36 */ String patternABCE = "ABCE";
+		/* 37 */ String patternABCF = "ABCF";
+		/* 38 */ String patternABDE = "ABDE";
+		/* 39 */ String patternABDF = "ABDF";
+		/* 40 */ String patternABEF = "ABEF";
+		/* 41 */ String patternACDE = "ACDE";
+		/* 42 */ String patternACDF = "ACDF";
+		/* 43 */ String patternACEF = "ACEF";
+		/* 44 */ String patternADEF = "ADEF";
+		/* 45 */ String patternBCDE = "BCDE";
+		/* 46 */ String patternBCDF = "BCDF";
+		/* 47 */ String patternBCEF = "BCEF";
+		/* 48 */ String patternBDEF = "BDEF";
+		/* 49 */ String patternCDEF = "CDEF";
+		/* 50 */ String patternABCDE = "ABCDE";
+		/* 51 */ String patternABCDF = "ABCDF";
+		/* 52 */ String patternABCEF = "ABCEF";
+		/* 53 */ String patternABDEF = "ABDEF";
+		/* 54 */ String patternACDEF = "ACDEF";
+		/* 55 */ String patternBCDEF = "BCDEF";
+		
 		
 		int tamanoAB = 0;
 		
@@ -101,14 +168,10 @@ public class Main {
 			patrones = Pattern.compile(patternAB[i]);
 			searcher = patrones.matcher(ls.get(i));
 			if(searcher.find()) {
-				tamanoAB += 1;
-				
+				tamanoAB += 1;				
 			}
 		}
-		System.out.println("Existen: "+tamanoAB+" AB");
 		
-		String[] patternAC = {"A(?=C)", "A?C", "AC", "AC", "A?C"};
-
 		int tamanoAC = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -119,10 +182,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoAC+" AC");
 		
-		String[] patternAD = {"A?D", "A(?=D)", "A?D", "AD", "AD", "A?D"}; 
-
 		int tamanoAD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -133,10 +193,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoAD+" AD");
 		
-		String[] patternAE = {"A?E", "A(?=E)", "A?E", "AE", "AE", "A?E"};
-
 		int tamanoAE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -147,10 +204,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoAE+" AE");
 		
-		String patternAF = "A??F";
-
 		int tamanoAF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -161,10 +215,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoAF+" AF");
 		
-		String[] patternBC = {"B(?=C)", "B?C", "BC", "BC", "B?C"};
-
 		int tamanoBC = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -175,10 +226,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBC+" BC");
 		
-		String[] patternBD = {"B(?=D)", "B?D", "BD", "BD", "B?D"};
-
 		int tamanoBD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -189,10 +237,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBD+" BD");
 		
-		String[] patternBE = {"B(?=E)", "B?E", "B?E", "BE", "BE"};
-
 		int tamanoBE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -203,10 +248,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBE+" BE");
 		
-		String patternBF = "B??F";
-
 		int tamanoBF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -217,10 +259,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBF+" BF");
 		
-		String patternCD = "C??D";
-
 		int tamanoCD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -231,10 +270,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCD+" CD");
 		
-		String patternCE[] = {"C(?=E)", "C?E", "C?E", "CE", "CE"};
-
 		int tamanoCE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -245,10 +281,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCE+" CE");
 		
-		String patternCF[] = {"C(?=F)", "C?F", "C?F", "CF", "CF"};
-
 		int tamanoCF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -259,10 +292,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCF+" CF");
 		
-		String[] patternDE = {"D(?=E)", "D(?=E)", "DE", "DE", "D?E", "D?E"};
-
 		int tamanoDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -273,10 +303,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoDE+" DE");
 		
-		String[] patternDF = {"(?=F)", "(?=D)", "D?F", "DF", "DF", "D?F"};
-
 		int tamanoDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -287,10 +314,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoDF+" DF");
 		
-		String[] patternEF = {"(?=E)", "(?=F)", "EF", "E?F", "EF", "E?F",};
-
 		int tamanoEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -301,10 +325,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoEF+" EF");
 		
-		String patternABC = "ABC";
-
 		int tamanoABC = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -315,10 +336,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABC+" ABC");
 		
-		String patternABD = "ABD";
-
 		int tamanoABD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -329,9 +347,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABD+" ABD");
 		
-		String[] patternABE = {"ABE", "A?BE", "AB?E", "(?=A)", "(?=B)", "(?=E)"};
 		int tamanoABE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -342,9 +358,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABE+" ABE");
 		
-		String[] patternABF = {"ABF", "A?BF", "AB?F", "(?=A)", "(?=B)", "(?=F)"};
 		int tamanoABF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -355,9 +369,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABF+" ABF");
-
-		String patternACD = "ACD";
+		
 		int tamanoACD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -368,9 +380,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACD+" ACD");
-		
-		String[] patternACE = {"ACE", "A?CE", "AC?E", "A??E", "(?=A)", "(?=C)", "(?=E)"};
+
 		int tamanoACE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -381,9 +391,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACE+" ACE");
 		
-		String[] patternACF = {"ACF", "A?CF", "AC?F", "A??F", "(?=A)", "(?=C)", "(?=F)"};
 		int tamanoACF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -394,9 +402,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACF+" ACF");
 		
-		String patternADE = "ADE";
 		int tamanoADE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -407,9 +413,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoADE+" ADE");
 		
-		String patternADF = "ADF";
 		int tamanoADF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -420,9 +424,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoADF+" ADF");
 		
-		String patternAEF = "AEF";
 		int tamanoAEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -433,9 +435,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoAEF+" AEF");
 		
-		String patternBCD = "BCD";
 		int tamanoBCD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -446,9 +446,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCD+" BCD");
-		
-		String patternBCE = "BCE";
+
 		int tamanoBCE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -459,9 +457,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCE+" BCE");
 		
-		String patternBCF = "BCF";
 		int tamanoBCF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -472,9 +468,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCF+" BCF");
 		
-		String patternBDE = "BDE";
 		int tamanoBDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -485,9 +479,8 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBDE+" BDE");
 		
-		String patternBDF = "BDF";
+		
 		int tamanoBDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -498,9 +491,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBDF+" BDF");
 		
-		String patternBEF = "BEF";
 		int tamanoBEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -511,9 +502,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBEF+" BEF");
 		
-		String patternCDE = "CDE";
 		int tamanoCDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -524,9 +513,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCDE+" CDE");
 		
-		String patternCDF = "CDF";
 		int tamanoCDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -537,9 +524,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCDF+" CDF");
 		
-		String patternCEF = "CEF";
 		int tamanoCEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -550,9 +535,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCEF+" CEF");
-
-		String patternDEF = "DEF";
+		
 		int tamanoDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -563,9 +546,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoDEF+" DEF");
 		
-		String patternABCD = "ABCD";
 		int tamanoABCD = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -576,9 +557,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABCD+" ABCD");
 		
-		String patternABCE = "ABCE";
 		int tamanoABCE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -589,9 +568,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABCE+" ABCE");
 		
-		String patternABCF = "ABCF";
 		int tamanoABCF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -602,9 +579,7 @@ public class Main {
 			
 			}
 		}
-		System.out.println("Existen: "+tamanoABCF+" ABCF");
 		
-		String patternABDE = "ABDE";
 		int tamanoABDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -615,9 +590,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABDE+" ABDE");
 		
-		String patternABDF = "ABDF";
 		int tamanoABDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -628,9 +601,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABDF+" ABDF");
 		
-		String patternABEF = "ABEF";
 		int tamanoABEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -641,9 +612,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABEF+" ABEF");
 		
-		String patternACDE = "ACDE";
 		int tamanoACDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -654,9 +623,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACDE+" ACDE");
 		
-		String patternACDF = "ACDF";
 		int tamanoACDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -667,9 +634,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACDF+" ACDF");
 		
-		String patternACEF = "ACEF";
 		int tamanoACEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -680,9 +645,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACEF+" ACEF");
 		
-		String patternADEF = "ADEF";
 		int tamanoADEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -693,9 +656,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoADEF+" ADEF");
 		
-		String patternBCDE = "BCDE";
 		int tamanoBCDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -706,9 +667,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCDE+" BCDE");
 		
-		String patternBCDF = "BCDF";
 		int tamanoBCDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -719,9 +678,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCDF+" BCDF");
 		
-		String patternBCEF = "BCEF";
 		int tamanoBCEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -732,9 +689,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCEF+" BCEF");
 		
-		String patternBDEF = "BDEF";
 		int tamanoBDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -745,9 +700,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoBDEF+" BDEF");
 		
-		String patternCDEF = "CDEF";
 		int tamanoCDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -758,9 +711,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoCDEF+" CDEF");
 		
-		String patternABCDE = "ABCDE";
 		int tamanoABCDE = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -771,9 +722,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABCDE+" ABCDE");
 		
-		String patternABCDF = "ABCDF";
 		int tamanoABCDF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -784,9 +733,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABCDF+" ABCDF");
 		
-		String patternABCEF = "ABCEF";
 		int tamanoABCEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -797,9 +744,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABCDF+" ABCEF");
 		
-		String patternABDEF = "ABDEF";
 		int tamanoABDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -810,9 +755,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoABDEF+" ABDEF");
 		
-		String patternACDEF = "ACDEF";
 		int tamanoACDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -823,9 +766,7 @@ public class Main {
 				
 			}
 		}
-		System.out.println("Existen: "+tamanoACDEF+" ACDEF");
 		
-		String patternBCDEF = "BCDEF";
 		int tamanoBCDEF = 0;
 		
 		for(int i = 0; i < ls.size(); i++) {
@@ -833,281 +774,379 @@ public class Main {
 			searcher = patrones.matcher(ls.get(i));
 			if(searcher.find()) {
 				tamanoBCDEF += 1;
-				
 			}
 		}
-		System.out.println("Existen: "+tamanoBCDEF+" BCDEF");
 		
+		//CONJUNTOS
+		
+		//Conjunto conjuntoObject = new Conjunto();
+		ArrayList<Conjunto> conjuntoArray = new ArrayList<Conjunto>();
+		
+		conjuntoArray.add(new Conjunto(tamanoAB, "AB"));
+		conjuntoArray.add(new Conjunto(tamanoAC, "AC"));
+		conjuntoArray.add(new Conjunto(tamanoAD, "AD"));
+		conjuntoArray.add(new Conjunto(tamanoAE, "AE"));
+		conjuntoArray.add(new Conjunto(tamanoAF, "AF"));
+		conjuntoArray.add(new Conjunto(tamanoBC, "BC"));
+		conjuntoArray.add(new Conjunto(tamanoBE, "BE"));
+		conjuntoArray.add(new Conjunto(tamanoBF, "BF"));
+		conjuntoArray.add(new Conjunto(tamanoCD, "CD"));
+		conjuntoArray.add(new Conjunto(tamanoCE, "CE"));
+		conjuntoArray.add(new Conjunto(tamanoCF, "CF"));
+		conjuntoArray.add(new Conjunto(tamanoDE, "DE"));
+		conjuntoArray.add(new Conjunto(tamanoDF, "DF"));
+		conjuntoArray.add(new Conjunto(tamanoEF, "EF"));
+		conjuntoArray.add(new Conjunto(tamanoABC, "ABC"));
+		conjuntoArray.add(new Conjunto(tamanoABD, "ABD"));
+		conjuntoArray.add(new Conjunto(tamanoABE, "ABE"));
+		conjuntoArray.add(new Conjunto(tamanoABF, "ABF"));
+		conjuntoArray.add(new Conjunto(tamanoACD, "ACD"));
+		conjuntoArray.add(new Conjunto(tamanoACE, "ACE"));
+		conjuntoArray.add(new Conjunto(tamanoACF, "ACF"));
+		conjuntoArray.add(new Conjunto(tamanoADE, "ADE"));
+		conjuntoArray.add(new Conjunto(tamanoADF, "ADF"));
+		conjuntoArray.add(new Conjunto(tamanoAEF, "AEF"));
+		conjuntoArray.add(new Conjunto(tamanoBCD, "BCD"));
+		conjuntoArray.add(new Conjunto(tamanoBCE, "BCE"));
+		conjuntoArray.add(new Conjunto(tamanoBCF, "BCF"));
+		conjuntoArray.add(new Conjunto(tamanoBDE, "BDE"));
+		conjuntoArray.add(new Conjunto(tamanoBDF, "BDF"));
+		conjuntoArray.add(new Conjunto(tamanoBEF, "BEF"));
+		conjuntoArray.add(new Conjunto(tamanoCDE, "CDE"));
+		conjuntoArray.add(new Conjunto(tamanoCDF, "CDF"));
+		conjuntoArray.add(new Conjunto(tamanoCEF, "CEF"));
+		conjuntoArray.add(new Conjunto(tamanoDEF, "DEF"));
+		conjuntoArray.add(new Conjunto(tamanoABCD, "ABCD"));
+		conjuntoArray.add(new Conjunto(tamanoABCE, "ABCE"));
+		conjuntoArray.add(new Conjunto(tamanoABCF, "ABCF"));
+		conjuntoArray.add(new Conjunto(tamanoABDE, "ABDE"));
+		conjuntoArray.add(new Conjunto(tamanoABDF, "ABDF"));
+		conjuntoArray.add(new Conjunto(tamanoABEF, "ABEF"));
+		conjuntoArray.add(new Conjunto(tamanoACDE, "ACDE"));
+		conjuntoArray.add(new Conjunto(tamanoACDF, "ACDF"));
+		conjuntoArray.add(new Conjunto(tamanoACEF, "ACEF"));
+		conjuntoArray.add(new Conjunto(tamanoADEF, "ADEF"));
+		conjuntoArray.add(new Conjunto(tamanoBCDE, "BCDE"));
+		conjuntoArray.add(new Conjunto(tamanoBCDF, "BCDF"));
+		conjuntoArray.add(new Conjunto(tamanoBCEF, "BCEF"));
+		conjuntoArray.add(new Conjunto(tamanoBDEF, "BDEF"));
+		conjuntoArray.add(new Conjunto(tamanoCDEF, "CDEF"));
+		conjuntoArray.add(new Conjunto(tamanoABCDE, "ABCDE"));
+		conjuntoArray.add(new Conjunto(tamanoABCDF, "ABCDF"));
+		conjuntoArray.add(new Conjunto(tamanoABCDF, "ABCEF"));
+		conjuntoArray.add(new Conjunto(tamanoABDEF, "ABDEF"));
+		conjuntoArray.add(new Conjunto(tamanoACDEF, "ACDEF"));
+		conjuntoArray.add(new Conjunto(tamanoBCDEF, "BCDEF"));
+		
+		Collections.sort(conjuntoArray, new Comparator<Conjunto>() {
+			public int compare(Conjunto r1, Conjunto r2) {
+				return  Integer.valueOf(r1.getTamanio()).compareTo(r2.getTamanio());
+			}
+		});
+		
+		//REGLAS
+		
+		//Regla cmObject = new Regla();
+		ArrayList<Regla> cmArray = new ArrayList<Regla>();
+				
 		float confianzaminimaAB = ((float) tamanoAB / (float) arreglocantidad[0]);
-		System.out.println("\nLa minima confianza de A->B es:" + confianzaminimaAB);
+		cmArray.add(new Regla(confianzaminimaAB, "A->B"));
 		
 		float confianzaminimaAC = ((float) tamanoAC / (float) arreglocantidad[0]);
-		System.out.println("La minima confianza de A->C es:" + confianzaminimaAC);
+		cmArray.add(new Regla(confianzaminimaAC, "A->C"));
 		
 		float confianzaminimaAD = ((float) tamanoAD / (float) arreglocantidad[0]);
-		System.out.println("La minima confianza A->D es:" + confianzaminimaAD);
+		cmArray.add(new Regla(confianzaminimaAD, "A->D"));
 
 		float confianzaminimaAE = ((float) tamanoAE / (float) arreglocantidad[0]);
-		System.out.println("La minima confianza de A->E es:" + confianzaminimaAE);
+		cmArray.add(new Regla(confianzaminimaAE, "A->E"));
 		
 		float confianzaminimaAF = ((float) tamanoAF / (float) arreglocantidad[0]);
-		System.out.println("La minima confianza de A->F es:" + confianzaminimaAF);
-		
+		cmArray.add(new Regla(confianzaminimaAF, "A->F"));
 		
 		float confianzaminimaBA = ((float) tamanoAB / (float) arreglocantidad[1]);
-		System.out.println("La minima confianza B->A es:" + confianzaminimaBA);
+		cmArray.add(new Regla(confianzaminimaBA, "B->A"));
 		
 		float confianzaminimaBC = ((float) tamanoBC / (float) arreglocantidad[1]);
-		System.out.println("La minima confianza de B->C es:" + confianzaminimaBC);
+		cmArray.add(new Regla(confianzaminimaBC, "B->C"));
 		
 		float confianzaminimaBD = ((float) tamanoBD / (float) arreglocantidad[1]);
-		System.out.println("La minima confianza de B->D es:" + confianzaminimaBD);
+		cmArray.add(new Regla(confianzaminimaBD, "B->D"));
 
 		float confianzaminimaBE = ((float) tamanoBE / (float) arreglocantidad[1]);
-		System.out.println("La minima confianza de B->E es:" + confianzaminimaBE);
+		cmArray.add(new Regla(confianzaminimaBE, "B->E"));
 		
 		float confianzaminimaBF = ((float) tamanoBF / (float) arreglocantidad[1]);
-		System.out.println("La minima confianza de B->F es:" + confianzaminimaBF);
+		cmArray.add(new Regla(confianzaminimaBF, "B->F"));
 		
 		float confianzaminimaCA = ((float) tamanoAC / (float) arreglocantidad[2]);
-		System.out.println("La minima confianza de C->A es:" + confianzaminimaCA);
+		cmArray.add(new Regla(confianzaminimaCA, "C->A"));
 		
 		float confianzaminimaCB = ((float) tamanoBC / (float) arreglocantidad[2]);
-		System.out.println("La minima confianza de C->B es:" + confianzaminimaCB);
+		cmArray.add(new Regla(confianzaminimaCB, "C->B"));
 	
 		float confianzaminimaCD = ((float) tamanoCD / (float) arreglocantidad[2]);
-		System.out.println("La minima confianza de C->D es:" + confianzaminimaCD);
+		cmArray.add(new Regla(confianzaminimaCD, "C->D"));
 
 		float confianzaminimaCE = ((float) tamanoCE / (float) arreglocantidad[2]);
-		System.out.println("La minima confianza de C->E es:" + confianzaminimaCE);
+		cmArray.add(new Regla(confianzaminimaCE, "C->E"));
 		
 		float confianzaminimaCF = ((float) tamanoCF / (float) arreglocantidad[2]);
-		System.out.println("La minima confianza de C->F es:" + confianzaminimaCF);
+		cmArray.add(new Regla(confianzaminimaCF, "C->F"));
 		
 		float confianzaminimaDA = ((float) tamanoAD / (float) arreglocantidad[3]);
-		System.out.println("La minima confianza de D->A es:" + confianzaminimaDA);
+		cmArray.add(new Regla(confianzaminimaDA, "D->A"));
 		
 		float confianzaminimaDB = ((float) tamanoBD / (float) arreglocantidad[3]);
-		System.out.println("La minima confianza de D->B es:" + confianzaminimaDB);
+		cmArray.add(new Regla(confianzaminimaDB, "D->B"));
 		
 		float confianzaminimaDC = ((float) tamanoCD / (float) arreglocantidad[3]);
-		System.out.println("La minima confianza de D->C es:" + confianzaminimaDC);
+		cmArray.add(new Regla(confianzaminimaDC, "D->C"));
 
 		float confianzaminimaDE = ((float) tamanoDE / (float) arreglocantidad[3]);
-		System.out.println("La minima confianza de D->E es:" + confianzaminimaDE);
+		cmArray.add(new Regla(confianzaminimaDE, "D->E"));
 		
 		float confianzaminimaDF = ((float) tamanoDF / (float) arreglocantidad[3]);
-		System.out.println("La minima confianza de D->F es:" + confianzaminimaDF);
+		cmArray.add(new Regla(confianzaminimaDF, "D->F"));
 		
 		float confianzaminimaEA = ((float) tamanoAE / (float) arreglocantidad[4]);
-		System.out.println("La minima confianza de E->A es:" + confianzaminimaEA);
+		cmArray.add(new Regla(confianzaminimaEA, "E->A"));
 		
 		float confianzaminimaEB = ((float) tamanoBE / (float) arreglocantidad[4]);
-		System.out.println("La minima confianza de E->B es:" + confianzaminimaEB);
+		cmArray.add(new Regla(confianzaminimaEB, "E->B"));
 		
 		float confianzaminimaEC = ((float) tamanoCE / (float) arreglocantidad[4]);
-		System.out.println("La minima confianza de E->C es:" + confianzaminimaEC);
+		cmArray.add(new Regla(confianzaminimaEC, "E->C"));
 
 		float confianzaminimaED = ((float) tamanoDE / (float) arreglocantidad[4]);
-		System.out.println("La minima confianza de E->D es:" + confianzaminimaED);
+		cmArray.add(new Regla(confianzaminimaED, "E->D"));
 		
 		float confianzaminimaEF = ((float) tamanoEF / (float) arreglocantidad[4]);
-		System.out.println("La minima confianza de E->F es:" + confianzaminimaEF);
+		cmArray.add(new Regla(confianzaminimaEF, "E->F"));
 		
 		float confianzaminimaFA = ((float) tamanoAF / (float) arreglocantidad[5]);
-		System.out.println("La minima confianza de F->A es:" + confianzaminimaFA);
+		cmArray.add(new Regla(confianzaminimaFA, "F->A"));
 		
 		float confianzaminimaFB = ((float) tamanoBF / (float) arreglocantidad[5]);
-		System.out.println("La minima confianza de F->B es:" + confianzaminimaFB);
+		cmArray.add(new Regla(confianzaminimaFB, "F->B"));
 		
 		float confianzaminimaFC = ((float) tamanoCF / (float) arreglocantidad[5]);
-		System.out.println("La minima confianza de F->C es:" + confianzaminimaFC);
+		cmArray.add(new Regla(confianzaminimaFC, "F->C"));
 
 		float confianzaminimaFD = ((float) tamanoDF / (float) arreglocantidad[5]);
-		System.out.println("La minima confianza de F->D es:" + confianzaminimaFD);
+		cmArray.add(new Regla(confianzaminimaFD, "F->D"));
 		
 		float confianzaminimaFE = ((float) tamanoEF / (float) arreglocantidad[5]);
-		System.out.println("La minima confianza de D->F es:" + confianzaminimaFE);
+		cmArray.add(new Regla(confianzaminimaFE, "D->F"));
 		
 		float confianzaminimaBCA = ((float) tamanoABC / (float) tamanoBC);
-		System.out.println("La minima confianza de BC->A es:" + confianzaminimaBCA);
+		cmArray.add(new Regla(confianzaminimaBCA, "BC->A"));
 		
 		float confianzaminimaBDA = ((float) tamanoABD / (float) tamanoBD);
-		System.out.println("La minima confianza de BD->A es:" + confianzaminimaBDA);
+		cmArray.add(new Regla(confianzaminimaBDA, "BD->A"));
 		
 		float confianzaminimaBEA = ((float) tamanoABE / (float) tamanoBE);
-		System.out.println("La minima confianza de BE->A es:" + confianzaminimaBEA);
+		cmArray.add(new Regla(confianzaminimaBEA, "BE->A"));
 		
 		float confianzaminimaBFA = ((float) tamanoABF / (float) tamanoBF);
-		System.out.println("La minima confianza de BF->A es:" + confianzaminimaBFA);
+		cmArray.add(new Regla(confianzaminimaBFA, "BF->A"));
 		
 		float confianzaminimaCDA = ((float) tamanoACD / (float) tamanoCD);
-		System.out.println("La minima confianza de CD->A es:" + confianzaminimaBCA);
+		cmArray.add(new Regla(confianzaminimaCDA, "CD->A"));
 		
 		float confianzaminimaCEA = ((float) tamanoACE / (float) tamanoCE);
-		System.out.println("La minima confianza de CE->A es:" + confianzaminimaCEA);
+		cmArray.add(new Regla(confianzaminimaCEA, "CE->A"));
 		
 		float confianzaminimaCFA = ((float) tamanoACF / (float) tamanoCF);
-		System.out.println("La minima confianza de CF->A es:" + confianzaminimaCFA);
+		cmArray.add(new Regla(confianzaminimaCFA, "CF->A"));
 		
 		float confianzaminimaDEA = ((float) tamanoADE / (float) tamanoDE);
-		System.out.println("La minima confianza de DE->A es:" + confianzaminimaDEA);
+		cmArray.add(new Regla(confianzaminimaDEA, "DE->A"));
 		
 		float confianzaminimaDFA = ((float) tamanoADF / (float) tamanoDF);
-		System.out.println("La minima confianza de DF->A es:" + confianzaminimaDFA);
+		cmArray.add(new Regla(confianzaminimaDFA, "DF->A"));
 		
 		float confianzaminimaEFA = ((float) tamanoAEF / (float) tamanoEF);
-		System.out.println("La minima confianza de EF->A es:" + confianzaminimaEFA);
+		cmArray.add(new Regla(confianzaminimaEFA, "EF->A"));
 		
 		float confianzaminimaACB = ((float) tamanoABC / (float) tamanoAC);
-		System.out.println("La minima confianza de AC->B es:" + confianzaminimaACB);
+		cmArray.add(new Regla(confianzaminimaACB, "AC->B"));
 		
 		float confianzaminimaADB = ((float) tamanoABD / (float) tamanoAD);
-		System.out.println("La minima confianza de AD->B es:" + confianzaminimaADB);
+		cmArray.add(new Regla(confianzaminimaADB, "AD->B"));
 		
 		float confianzaminimaAEB = ((float) tamanoABE / (float) tamanoAF);
-		System.out.println("La minima confianza de AE->B es:" + confianzaminimaAEB);
+		cmArray.add(new Regla(confianzaminimaAEB, "AE->B"));
 		
 		float confianzaminimaAFB = ((float) tamanoABF / (float) tamanoAF);
-		System.out.println("La minima confianza de AF->B es:" + confianzaminimaAFB);
+		cmArray.add(new Regla(confianzaminimaAFB, "AF->B"));
 		
 		float confianzaminimaCDB = ((float) tamanoBCD / (float) tamanoCD);
-		System.out.println("La minima confianza de CD->B es:" + confianzaminimaCDB);
+		cmArray.add(new Regla(confianzaminimaCDB, "CD->B"));
 		
 		float confianzaminimaCEB = ((float) tamanoBCE / (float) tamanoCE);
-		System.out.println("La minima confianza de CE->B es:" + confianzaminimaCEB);
+		cmArray.add(new Regla(confianzaminimaCEB, "CE->B"));
 		
 		float confianzaminimaCFB = ((float) tamanoBCF / (float) tamanoCF);
-		System.out.println("La minima confianza de CF->B es:" + confianzaminimaCFB);
+		cmArray.add(new Regla(confianzaminimaCFB, "CF->B"));
 		
 		float confianzaminimaDEB = ((float) tamanoBDE / (float) tamanoDE);
-		System.out.println("La minima confianza de DE->B es:" + confianzaminimaDEB);
+		cmArray.add(new Regla(confianzaminimaDEB, "DE->B"));
 		
 		float confianzaminimaDFB = ((float) tamanoBDF / (float) tamanoDF);
-		System.out.println("La minima confianza de DF->B es:" + confianzaminimaDFB);
+		cmArray.add(new Regla(confianzaminimaDFB, "DF->B"));
 		
 		float confianzaminimaEFB = ((float) tamanoBEF / (float) tamanoEF);
-		System.out.println("La minima confianza de EF->B es:" + confianzaminimaEFB);
+		cmArray.add(new Regla(confianzaminimaEFB, "EF->B"));
 		
 		float confianzaminimaABC = ((float) tamanoABC / (float) tamanoAB);
-		System.out.println("La minima confianza de AB->C es:" + confianzaminimaABC);
+		cmArray.add(new Regla(confianzaminimaABC, "AB->C"));
 		
 		float confianzaminimaADC = ((float) tamanoACD / (float) tamanoAD);
-		System.out.println("La minima confianza de AD->C es:" + confianzaminimaADC);
+		cmArray.add(new Regla(confianzaminimaADC, "AD->C"));
 		
 		float confianzaminimaAEC = ((float) tamanoACE / (float) tamanoAE);
-		System.out.println("La minima confianza de AE->C es:" + confianzaminimaAEC);
+		cmArray.add(new Regla(confianzaminimaAEC, "AE->C"));
 		
 		float confianzaminimaAFC = ((float) tamanoACF / (float) tamanoAF);
-		System.out.println("La minima confianza de AF->C es:" + confianzaminimaAFC);
+		cmArray.add(new Regla(confianzaminimaAFC, "AF->C"));
 		
 		float confianzaminimaBDC = ((float) tamanoBCD / (float) tamanoBD);
-		System.out.println("La minima confianza de BD->C es:" + confianzaminimaBDC);
+		cmArray.add(new Regla(confianzaminimaBDC, "BD->C"));
 		
 		float confianzaminimaBEC = ((float) tamanoBCE / (float) tamanoBE);
-		System.out.println("La minima confianza de BE->C es:" + confianzaminimaBEC);
+		cmArray.add(new Regla(confianzaminimaBEC, "BE->C"));
 		
 		float confianzaminimaBFC = ((float) tamanoBCF / (float) tamanoBF);
-		System.out.println("La minima confianza de BF->C es:" + confianzaminimaBFC);
+		cmArray.add(new Regla(confianzaminimaBFC, "BF->C"));
 		
 		float confianzaminimaDEC = ((float) tamanoCDE / (float) tamanoDE);
-		System.out.println("La minima confianza de DE->C es:" + confianzaminimaDEC);
+		cmArray.add(new Regla(confianzaminimaDEC, "DE->C"));
 		
 		float confianzaminimaDFC = ((float) tamanoCDF / (float) tamanoDF);
-		System.out.println("La minima confianza de DF->C es:" + confianzaminimaDFC);
+		cmArray.add(new Regla(confianzaminimaDFC, "DF->C"));
 		
 		float confianzaminimaEFC = ((float) tamanoCEF / (float) tamanoEF);
-		System.out.println("La minima confianza de EF->C es:" + confianzaminimaEFC);
+		cmArray.add(new Regla(confianzaminimaEFC, "EF->C"));
 		
 		float confianzaminimaABD = ((float) tamanoABD / (float) tamanoAB);
-		System.out.println("La minima confianza de AB->D es:" + confianzaminimaABD);
+		cmArray.add(new Regla(confianzaminimaABD, "AB->D"));
 		
 		float confianzaminimaACD = ((float) tamanoACD / (float) tamanoAC);
-		System.out.println("La minima confianza de AC->D es:" + confianzaminimaACD);
+		cmArray.add(new Regla(confianzaminimaACD, "AC->D"));
 		
 		float confianzaminimaAED = ((float) tamanoADE / (float) tamanoAE);
-		System.out.println("La minima confianza de AE->D es:" + confianzaminimaAED);
+		cmArray.add(new Regla(confianzaminimaAED, "AE->D"));
 		
 		float confianzaminimaAFD = ((float) tamanoADF / (float) tamanoAF);
-		System.out.println("La minima confianza de AF->D es:" + confianzaminimaAFD);
+		cmArray.add(new Regla(confianzaminimaAFD, "AF->D"));
 		
 		float confianzaminimaBCD = ((float) tamanoBCD / (float) tamanoBC);
-		System.out.println("La minima confianza de BC->D es:" + confianzaminimaBCD);
+		cmArray.add(new Regla(confianzaminimaBCD, "BC->D"));
 		
 		float confianzaminimaBED = ((float) tamanoBDE / (float) tamanoBE);
-		System.out.println("La minima confianza de BE->D es:" + confianzaminimaBED);
+		cmArray.add(new Regla(confianzaminimaBED, "BE->D"));
 		
 		float confianzaminimaBFD = ((float) tamanoBDF / (float) tamanoBF);
-		System.out.println("La minima confianza de BF->D es:" + confianzaminimaBFD);
+		cmArray.add(new Regla(confianzaminimaBFD, "BF->D"));
 		
 		float confianzaminimaCED = ((float) tamanoCDE / (float) tamanoCE);
-		System.out.println("La minima confianza de CE->D es:" + confianzaminimaCED);
+		cmArray.add(new Regla(confianzaminimaCED, "CE->D"));
 		
 		float confianzaminimaCFD = ((float) tamanoCDF / (float) tamanoCF);
-		System.out.println("La minima confianza de CF->D es:" + confianzaminimaCFD);
+		cmArray.add(new Regla(confianzaminimaCFD, "CF->D"));
 		
 		float confianzaminimaEFD = ((float) tamanoDEF / (float) tamanoEF);
-		System.out.println("La minima confianza de EF->D es:" + confianzaminimaEFD);
+		cmArray.add(new Regla(confianzaminimaEFD, "EF->D"));
 		
 		float confianzaminimaABE = ((float) tamanoABE / (float) tamanoAB);
-		System.out.println("La minima confianza de AB->E es:" + confianzaminimaABE);
+		cmArray.add(new Regla(confianzaminimaABE, "AB->E"));
 		
 		float confianzaminimaACE = ((float) tamanoACE / (float) tamanoAC);
-		System.out.println("La minima confianza de AC->E es:" + confianzaminimaACE);
+		cmArray.add(new Regla(confianzaminimaACE, "AC->E"));
 		
 		float confianzaminimaADE = ((float) tamanoADE / (float) tamanoAD);
-		System.out.println("La minima confianza de AE->D es:" + confianzaminimaADE);
+		cmArray.add(new Regla(confianzaminimaADE, "AE->D"));
 		
 		float confianzaminimaAFE = ((float) tamanoADE / (float) tamanoAF);
-		System.out.println("La minima confianza de AF->E es:" + confianzaminimaAFE);
+		cmArray.add(new Regla(confianzaminimaAFE, "AF->E"));
 		
 		float confianzaminimaBCE = ((float) tamanoBCE / (float) tamanoBC);
-		System.out.println("La minima confianza de BC->E es:" + confianzaminimaBCE);
+		cmArray.add(new Regla(confianzaminimaBCE, "BC->E"));
 		
 		float confianzaminimaBDE = ((float) tamanoBDE / (float) tamanoBD);
-		System.out.println("La minima confianza de BD->E es:" + confianzaminimaBDE);
+		cmArray.add(new Regla(confianzaminimaBDE, "BD->E"));
 		
 		float confianzaminimaBFE = ((float) tamanoBEF / (float) tamanoBF);
-		System.out.println("La minima confianza de BF->E es:" + confianzaminimaBFE);
+		cmArray.add(new Regla(confianzaminimaBFE, "BF->E"));
 		
 		float confianzaminimaCDE = ((float) tamanoCDE / (float) tamanoCD);
-		System.out.println("La minima confianza de CD->E es:" + confianzaminimaCDE);
+		cmArray.add(new Regla(confianzaminimaCDE, "CD->E"));
 		
 		float confianzaminimaCFE = ((float) tamanoCEF / (float) tamanoCF);
-		System.out.println("La minima confianza de CF->E es:" + confianzaminimaCFE);
+		cmArray.add(new Regla(confianzaminimaCFE, "CF->E"));
 		
 		float confianzaminimaDFE = ((float) tamanoDEF / (float) tamanoDF);
-		System.out.println("La minima confianza de DF->E es:" + confianzaminimaDFE);
+		cmArray.add(new Regla(confianzaminimaDFE, "DF->E"));
 		
 		float confianzaminimaFAB = ((float) tamanoABF / (float) tamanoAB);
-		System.out.println("La minima confianza de F->AB es:" + confianzaminimaFAB);
+		cmArray.add(new Regla(confianzaminimaFAB, "F->AB"));
 		
 		float confianzaminimaFAC = ((float) tamanoACF / (float) tamanoAC);
-		System.out.println("La minima confianza de F->AC es:" + confianzaminimaFAC);
+		cmArray.add(new Regla(confianzaminimaFAC, "F->AC"));
 		
 		float confianzaminimaFAD = ((float) tamanoADF / (float) tamanoAD);
-		System.out.println("La minima confianza de F->AD es:" + confianzaminimaFAD);
+		cmArray.add(new Regla(confianzaminimaFAD, "F->AD"));
 		
 		float confianzaminimaFAE = ((float) tamanoAEF / (float) tamanoAE);
-		System.out.println("La minima confianza de F->AE es:" + confianzaminimaFAE);
+		cmArray.add(new Regla(confianzaminimaFAE, "F->AE"));
 		
 		float confianzaminimaFBC = ((float) tamanoBCF / (float) tamanoBC);
-		System.out.println("La minima confianza de F->BC es:" + confianzaminimaFBC);
+		cmArray.add(new Regla(confianzaminimaFBC, "F->BC"));
 		
 		float confianzaminimaFBD = ((float) tamanoBDF / (float) tamanoBD);
-		System.out.println("La minima confianza de F->BD es:" + confianzaminimaFBD);
+		cmArray.add(new Regla(confianzaminimaFBD, "F->BD"));
 		
 		float confianzaminimaFBE = ((float) tamanoBEF / (float) tamanoBE);
-		System.out.println("La minima confianza de F->BE es:" + confianzaminimaFBE);
+		cmArray.add(new Regla(confianzaminimaFBE, "F->BE"));
 		
 		float confianzaminimaFCD = ((float) tamanoCDF / (float) tamanoCD);
-		System.out.println("La minima confianza de F->CD es:" + confianzaminimaFCD);
+		cmArray.add(new Regla(confianzaminimaFCD, "F->CD"));
 		
 		float confianzaminimaFCE = ((float) tamanoCEF / (float) tamanoCE);
-		System.out.println("La minima confianza de F->CE es:" + confianzaminimaFCE);
+		cmArray.add(new Regla(confianzaminimaFCE, "F->CE"));
 		
 		float confianzaminimaFDE = ((float) tamanoDEF / (float) tamanoDE);
-		System.out.println("La minima confianza de F->DE es:" + confianzaminimaFDE);
+		cmArray.add(new Regla(confianzaminimaFDE, "F->DE"));
+		
+		ArrayList<Regla> cmArrayResult = cmArray;
+		Collections.sort(cmArrayResult, new Comparator<Regla>() {
+			public int compare(Regla r1, Regla r2) {
+				return  Float.valueOf(r1.getConfianzaMinima()).compareTo(r2.getConfianzaMinima());
+			}
+		});
+		
+		System.out.println("\n\n -----------------RESULTADOS-------------------");
+		System.out.println("Soporte minimo: " + soporteMinimo);
+		System.out.println("Confianza minima: " + confianzaMinima);
+		
+		System.out.println("\n\n  -- Conjuntos -- ");
+		
+		for(int i = conjuntoArray.size() - 1; i >= 0; i--) {
+			if(conjuntoArray.get(i).getTamanio() >= soporteMinimo ) {
+				System.out.println("Existen " + conjuntoArray.get(i).getTamanio() + " de: " + conjuntoArray.get(i).getConjunto());
+			}
+		}
+		
+		System.out.println("\n\n  -- Reglas -- ");
+		
+		for(int i = cmArrayResult.size() - 1; i >= 0; i--) {
+			if(cmArrayResult.get(i).getConfianzaMinima() >= confianzaMinima && cmArrayResult.get(i).getConfianzaMinima() <= 1 &&
+					!( cmArrayResult.get(i).getConfianzaMinima() != cmArrayResult.get(i).getConfianzaMinima())) {
+				
+						System.out.println("La confianza minima de " + cmArrayResult.get(i).getRegla() + " es: " + cmArrayResult.get(i).getConfianzaMinima());
+			}
+		}
 		
 	}
 
